@@ -224,3 +224,60 @@ function retrieveWeather(stationCode) {
   return weatherArray;
 
 }
+
+/**
+ * function to change temperature to value in the Google Sheet
+ */
+function setTemperature() {
+  
+  // get temperature from Sheet
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tempSheet = ss.getSheetByName('sheetNest');
+  const tempF = tempSheet.getRange('DA71').getValue();
+  const tempC = convertFtoC(tempF);
+
+  console.log(tempC.toFixed(1));
+  console.log(typeof tempC)
+
+  
+  // get the smart service
+  const smartService = getSmartService();
+  
+  // get the access token
+  const access_token = smartService.getAccessToken();
+  console.log(access_token);
+
+  // setup the SMD API url
+  const url = 'https://smartdevicemanagement.googleapis.com/v1';
+
+  // set the endpoint
+  const endpoint = '/enterprises/'  + PROJECT_ID + '/devices/' + DOWNSTAIRS_THERMOSTAT + ':executeCommand';
+
+  // setup the headers for the call
+  const headers = {
+    'Authorization': 'Bearer ' + access_token,
+    'Content-Type': 'application/json'
+  }
+
+  const data = {
+    'command': 'sdm.devices.commands.ThermostatTemperatureSetpoint.SetHeat',
+    'params': {
+      'heatCelsius': tempC
+    }
+  }
+  
+  const options = {
+    'headers': headers,
+    'method': 'post',
+    'payload': JSON.stringify(data)
+  }
+  
+  try {
+    // try calling API
+    const response = UrlFetchApp.fetch(url + endpoint, options);
+
+  }
+  catch(e) {
+    console.log('Error: ' + e);
+  }
+}
