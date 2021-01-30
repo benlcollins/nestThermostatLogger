@@ -233,7 +233,7 @@ function setTemperature() {
   // get temperature from Sheet
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const tempSheet = ss.getSheetByName('sheetNest');
-  const tempF = tempSheet.getRange('DA71').getValue();
+  const tempF = tempSheet.getRange('A1').getValue(); // Change this cell reference to match the temperature input cell of your Google Sheet 
   const tempC = convertFtoC(tempF);
 
   console.log(tempC.toFixed(1));
