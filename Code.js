@@ -48,6 +48,47 @@ function listDevices() {
 /**
  * function to make request to google smart api
  */
+function makeRequest(endpoint) {
+
+  // get the smart service
+  const smartService = getSmartService();
+  
+  // get the access token
+  const access_token = smartService.getAccessToken();
+  console.log(access_token);
+
+  // setup the SMD API url
+  const url = 'https://smartdevicemanagement.googleapis.com/v1';
+  //const endpoint = '/enterprises/' + PROJECT_ID + '/devices';
+
+  // setup the headers for the call
+  const headers = {
+    'Authorization': 'Bearer ' + access_token,
+    'Content-Type': 'application/json'
+  }
+  
+  // set up params
+  const params = {
+    'headers': headers,
+    'method': 'get',
+    'muteHttpExceptions': true
+  }
+  
+  // try calling API
+  try {
+    const response = UrlFetchApp.fetch(url + endpoint, params);
+    const responseBody = JSON.parse(response.getContentText());
+    
+    return responseBody;
+  }
+  catch(e) {
+    console.log('Error: ' + e);
+  }
+}
+
+/**
+ * function to make request to google smart api
+ */
 function logThermostatDataAllDevices() {
 
   // get the latest weather data
