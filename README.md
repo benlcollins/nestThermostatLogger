@@ -26,4 +26,4 @@ And yes, it's possible to set your thermostat temperature from your Google Sheet
 
 # More Info
 
-Tutorial coming soon on [benlcollins.com](https://www.benlcollins.com/)
+Tutorial: [Control Your Nest Thermostat And Build A Temperature Logger In Google Sheets Using Apps Script](https://www.benlcollins.com/apps-script/nest-thermostat/)
